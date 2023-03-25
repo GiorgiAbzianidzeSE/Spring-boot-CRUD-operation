@@ -14,12 +14,13 @@ import lombok.*;
 @Getter
 @EqualsAndHashCode
 @ToString
+@Builder
 public class User{
 
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private final Long id;
 
     @Column(name = "first_name" , nullable = false , length = 40)
     private String firstName;
@@ -53,19 +54,21 @@ public class User{
         this.age = age;
         this.birthDate = birthDate;
         this.userAddress = userAddress;
+        id = -1L;
     }
 
-    private User(final Long id , final String firstName , final String lastName , final Integer age , final LocalDate birthDate , final Address userAddress){
+    public User(final Long id , final String firstName ,  final String lastName , final String passowrd  , final Integer age , final LocalDate birthDate , final Address userAddress){
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
         this.birthDate = birthDate;
         this.userAddress = userAddress;
+        this.passowrd = passowrd;
     }
 
     protected User(){
-        
+        id = -1L;
     }
 
     public static User userDtoToUser(final UserDto userDto){
@@ -73,7 +76,7 @@ public class User{
     }
 
     public static User userDtoToUserWithId(final UserDto userDto , final Long id){
-        return new User(id , userDto.getFirstName(), userDto.getLastName(), userDto.getAge(), userDto.getBirthDay(), userDto.getAddress());
+        return new User(id , userDto.getFirstName(), "defaultPassword" ,  userDto.getLastName(), userDto.getAge(), userDto.getBirthDay(), userDto.getAddress());
     }
 
 }
